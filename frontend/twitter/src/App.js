@@ -1,15 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
-
-import SideBar from './Component/SideBar';
-import Container from './Component/Container';
+import Main from './Component/Main';
 
 const App = (props) => {
   return (
     <div className={props.className}>
-      <SideBar />
-      <Container />
-      <SideBar />
+      <Main />
     </div>
   );
 };

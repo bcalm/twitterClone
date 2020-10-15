@@ -1,8 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
+import Header from './Header';
+import TweetSection from './TweetSection';
 
 const Container = (props) => {
-  return <div className={props.className}></div>;
+  return (
+    <div className={props.className}>
+      <Header />
+      <TweetSection />
+    </div>
+  );
 };
 
 const StyledContainer = styled(Container)`

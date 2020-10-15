@@ -1,8 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 const SideBar = (props) => {
-  return <div className={props.className}></div>;
+  return (
+    <div className={props.className}>
+      <Link to="/">
+        <h3>Home</h3>
+      </Link>
+    </div>
+  );
 };
 
 const StyledSideBar = styled(SideBar)`
