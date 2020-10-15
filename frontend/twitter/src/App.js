@@ -1,26 +1,31 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import styled from 'styled-components';
 
-function App() {
+import SideBar from './Component/SideBar';
+import Container from './Component/Container';
+
+const App = (props) => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className={props.className}>
+      <SideBar />
+      <Container />
+      <SideBar />
     </div>
   );
-}
+};
 
-export default App;
+const StyledApp = styled(App)`
+  height: 98vh;
+  width: 100vw;
+  display: flex;
+  position: absolute;
+  background-color: whitesmoke;
+  font-family: sans-serif;
+  text-align: start;
+  justify-content: start;
+  overflow: hidden;
+  margin: 0px;
+  padding: 0px;
+`;
+
+export default StyledApp;
