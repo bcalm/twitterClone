@@ -12,11 +12,12 @@ const TweetSection = (props) => {
   }, []);
 
   const addTweet = (content) => PostAPI.addTweet(content).then(setTweets);
+  const deleteTweet = (id) => PostAPI.deleteTweet(id).then(setTweets);
 
   return (
     <div className={props.className}>
       <TweetBox onEnter={addTweet} />
-      <Tweets tweets={tweets} />
+      <Tweets tweets={tweets} onClick={deleteTweet} />
     </div>
   );
 };

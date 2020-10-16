@@ -38,5 +38,11 @@ public class TwitterController {
         this.twitterRepository.save(tweet);
         return this.twitterRepository.findAll();
     }
+
+    @PostMapping("/api/deleteTweet")
+    public List<Tweets> deleteTweet(@RequestBody Long tweetId){
+        this.twitterRepository.deleteById(tweetId);
+        return this.twitterRepository.findAll();
+    }
 }
 

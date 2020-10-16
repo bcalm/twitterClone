@@ -3,26 +3,29 @@ import styled from 'styled-components';
 import Content from './Content';
 import TweetOptions from './TweetOptions';
 
-const Tweet = (props) => {
-  const {
-    replyCount,
-    content,
-    id,
-    likeCount,
-    retweetCount,
-    timeStamp,
-    userId,
-    userName,
-  } = props;
+const Tweet = ({
+  replyCount,
+  content,
+  id,
+  likeCount,
+  retweetCount,
+  timeStamp,
+  userId,
+  userName,
+  className,
+  onClick,
+}) => {
   return (
-    <div className={props.className}>
+    <div className={className}>
       <Content
         details={{
           content,
           timeStamp,
           userId,
           userName,
+          id,
         }}
+        onClick={onClick}
       />
       <TweetOptions details={{ likeCount, replyCount, retweetCount }} />
     </div>
