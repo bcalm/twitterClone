@@ -1,17 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
+import image from '../images/userIcon.png';
 
 const UserProfile = (props) => {
-  return (
-    <div className={props.className}>
-      <img src="../images/userIcon.webp" alt="user profile"></img>
-    </div>
-  );
+  return <img className={props.className} src={image} alt="user Profile"></img>;
 };
 
 const StyledUserProfile = styled(UserProfile)`
-  width: 40px;
+  width: 68px;
   border-radius: 50%;
+  height: 72px;
 `;
 
 export default StyledUserProfile;
