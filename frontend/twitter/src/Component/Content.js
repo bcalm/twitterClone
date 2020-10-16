@@ -14,7 +14,7 @@ const Content = (props) => {
 
 const StyledContent = styled(Content)`
   display: flex;
-  height: 80%;
+  height: 70%;
   margin-top: 0%;
   padding: 2%;
 
