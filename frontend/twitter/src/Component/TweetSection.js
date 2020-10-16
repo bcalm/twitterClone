@@ -1,13 +1,22 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import Blog from './Blog';
+import TweetBox from './TweetBox';
+import PostAPI from '../api/PostApi';
 import Tweets from './Tweets';
 
 const TweetSection = (props) => {
+  const [tweets, setTweets] = useState([]);
+
+  useEffect(() => {
+    PostAPI.getTweets().then(setTweets);
+  }, []);
+
+  const addTweet = (content) => PostAPI.addTweet(content).then(setTweets);
+
   return (
     <div className={props.className}>
-      <Blog />
-      <Tweets />
+      <TweetBox onEnter={addTweet} />
+      <Tweets tweets={tweets} />
     </div>
   );
 };

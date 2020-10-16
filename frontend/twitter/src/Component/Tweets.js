@@ -1,17 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import PostAPI from '../api/PostApi';
+import React from 'react';
 import Tweet from './Tweet';
 
-const Tweets = (props) => {
-  const [tweets, setTweets] = useState([]);
-
-  useEffect(() => {
-    setTweets(PostAPI.getTweets());
-  }, []);
-
-  const tweetComponents = tweets.map((tweet, index) => (
-    <Tweet key={index} {...tweet} id={index} />
-  ));
+const Tweets = ({ tweets }) => {
+  const tweetComponents = tweets
+    .slice()
+    .reverse()
+    .map((tweet) => <Tweet key={tweet.id} {...tweet} id={tweet.id} />);
   return <div>{tweetComponents}</div>;
 };
 

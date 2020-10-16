@@ -1,13 +1,14 @@
-const getTweets = () => [
-  {
-    content: 'First tweet',
-    userName: 'Vikram Singh',
-    userId: 'bcalm',
-    timeStamp: '10 min ago',
-    likeCount: 0,
-    replyCount: 0,
-    retweetCount: 0,
-  },
-];
+const postReq = (url, data) => {
+  return fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: data,
+  });
+};
 
-export default { getTweets };
+const getTweets = () => fetch('/api/getTweets').then((x) => x.json());
+
+const addTweet = (tweet) =>
+  postReq('/api/addTweet', tweet).then((x) => x.json());
+
+export default { getTweets, addTweet };
