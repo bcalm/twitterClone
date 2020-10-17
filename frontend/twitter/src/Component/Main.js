@@ -11,6 +11,9 @@ const Main = () => {
         <Route exact path="/">
           <Home />
         </Route>
+        <Route exact path={`/:id/addComment`}>
+          <Home />
+        </Route>
       </Switch>
     </BrowserRouter>
   );

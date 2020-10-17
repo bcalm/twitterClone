@@ -4,11 +4,8 @@ import Content from './Content';
 import TweetOptions from './TweetOptions';
 
 const Tweet = ({
-  replyCount,
   content,
   id,
-  likeCount,
-  retweetCount,
   timeStamp,
   userId,
   userName,
@@ -27,7 +24,7 @@ const Tweet = ({
         }}
         onClick={onClick}
       />
-      <TweetOptions details={{ likeCount, replyCount, retweetCount }} />
+      <TweetOptions id={id} />
     </div>
   );
 };

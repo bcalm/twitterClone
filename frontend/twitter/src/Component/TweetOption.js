@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
 const TweetOption = ({
@@ -9,10 +9,13 @@ const TweetOption = ({
   svg,
   count,
 }) => {
-  const [color, setColor] = useState(defaultColor);
-  const handleOnMouseEnter = () => setColor(activeColor);
-  const handleOnMouseLeave = () => setColor(defaultColor);
-
+  let color = defaultColor;
+  const handleOnMouseEnter = () => {
+    color = activeColor;
+  };
+  const handleOnMouseLeave = () => {
+    color = defaultColor;
+  };
   return (
     <div
       className={className}
@@ -32,6 +35,7 @@ const StyledTweetOption = styled(TweetOption)`
   height: 10%;
   svg {
     height: 20%;
+    cursor: pointer;
   }
 
   span {

@@ -1,14 +1,16 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import styled from 'styled-components';
+import TweetContext from './TweetContext';
 
 const TextArea = (props) => {
   const [value, setValue] = useState('');
+  const tweets = useContext(TweetContext);
 
   const handleOnChange = (event) => setValue(event.target.value);
 
   const handleEnter = (event) => {
     if (event.keyCode === 13) {
-      props.onEnter(value);
+      tweets.add(value);
       setValue('');
     }
   };

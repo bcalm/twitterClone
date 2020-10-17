@@ -3,11 +3,11 @@ import styled from 'styled-components';
 import UserProfile from './UserProfile';
 import TextArea from './TextArea';
 
-const TweetBox = ({ className, onEnter }) => {
+const TweetBox = ({ className }) => {
   return (
     <div className={className}>
       <UserProfile />
-      <TextArea onEnter={onEnter} />
+      <TextArea />
     </div>
   );
 };

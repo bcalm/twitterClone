@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import TweetOption from './TweetOption';
+import PostAPI from '../api/PostApi';
+import TweetContext from './TweetContext';
 
 const LikeSvg = () => {
   return (
@@ -32,39 +34,62 @@ const RetweetSvg = () => {
   );
 };
 
-const TweetOptions = (props) => {
+const TweetOptions = ({ id, className }) => {
+  const [
+    { liked, replied, retweeted, likeCount, replyCount, retweetCount },
+    setUserActions,
+  ] = useState({});
+
+  const addLike = () => PostAPI.addLike(id).then(setUserActions);
+
+  useEffect(() => {
+    PostAPI.getUserActionDetails(id).then(setUserActions);
+  }, [id]);
+
+  const tweetFunctions = useContext(TweetContext);
+
+  const addRetweet = () => {
+    tweetFunctions.retweet(id);
+    const count = retweeted ? -1 : 1;
+    setUserActions({
+      retweeted: !retweeted,
+      retweetCount: retweetCount + count,
+    });
+  };
+
+  const likedColor = liked ? 'red' : 'black';
+  const retweetColor = retweeted ? 'green' : 'black';
+  const replyColor = replied ? 'blue' : 'black';
   const Like = (
     <TweetOption
-      defaultColor="black"
+      defaultColor={likedColor}
       activeColor="red"
-      onClick={props.onClick}
-      count={props.details.likeCount}
+      onClick={addLike}
+      count={likeCount}
       svg={<LikeSvg />}
     />
   );
 
   const Reply = (
     <TweetOption
-      defaultColor="black"
+      defaultColor={replyColor}
       activeColor="blue"
-      onClick={props.onClick}
-      count={props.details.replyCount}
+      count={replyCount}
       svg={<ReplySvg />}
     />
   );
-
   const Retweet = (
     <TweetOption
-      defaultColor="black"
+      defaultColor={retweetColor}
       activeColor="green"
-      onClick={props.onClick}
-      count={props.details.retweetCount}
+      onClick={addRetweet}
+      count={retweetCount}
       svg={<RetweetSvg />}
     />
   );
 
   return (
-    <div className={props.className}>
+    <div className={className}>
       {Like}
       {Reply}
       {Retweet}
