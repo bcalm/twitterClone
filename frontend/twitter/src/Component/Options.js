@@ -12,9 +12,10 @@ const Options = (props) => {
 
   const deleteTweet = (id) => PostAPI.deleteTweet(id).then(setTweets);
   const addRetweet = (id) => PostAPI.addRetweet(id).then(setTweets);
+  const deleteRetweet = (id) => PostAPI.deleteRetweet(id).then(setTweets);
   const getTweets = () => PostApi.getTweets().then(setTweets);
   const getRetweet = () => PostApi.getRetweets().then(setTweets);
-  const getLikeTweet = () => PostApi.getTweets().then(setTweets);
+  const getLikeTweet = () => PostApi.getLikeTweets().then(setTweets);
 
   const showRetweet = () => {
     setStyle({ retweetStyle: indicator });
@@ -47,7 +48,7 @@ const Options = (props) => {
         </div>
       </div>
       <TweetContext.Provider
-        value={{ delete: deleteTweet, retweet: addRetweet }}
+        value={{ delete: deleteTweet, retweet: addRetweet, deleteRetweet }}
       >
         <Tweets tweets={tweets} />
       </TweetContext.Provider>

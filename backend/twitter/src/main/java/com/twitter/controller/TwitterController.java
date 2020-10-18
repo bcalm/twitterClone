@@ -99,12 +99,19 @@ public class TwitterController {
         Tweets tweet = this.twitterRepository.getOne(tweetId);
         String content = tweet.getContent();
         UserTweetActions userDetails = this.userActionRepository.getOne(tweetId);
-        int value = userDetails.isRetweeted() ? -1 : 1;
-        int addValue = (userDetails.getRetweetCount() + value);
-        userDetails.setRetweetCount(addValue);
-        userDetails.setRetweeted(!userDetails.isRetweeted());
+        userDetails.setRetweetCount(userDetails.getRetweetCount()+1);
+        userDetails.setRetweeted(true);
         this.userActionRepository.save(userDetails);
         return this.addTweet(content);
+    }
+
+    @PostMapping("/api/deleteRetweet")
+    public List<Tweets> deleteRetweet(@RequestBody Long tweetId){
+        UserTweetActions userDetails = this.userActionRepository.getOne(tweetId);
+        userDetails.setRetweetCount(userDetails.getRetweetCount()+1);
+        userDetails.setRetweeted(false);
+        this.userActionRepository.save(userDetails);
+        return this.twitterRepository.findAll();
     }
 
 

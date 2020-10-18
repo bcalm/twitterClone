@@ -50,10 +50,21 @@ const TweetOptions = ({ id, className }) => {
 
   const addRetweet = () => {
     tweetFunctions.retweet(id);
-    const count = retweeted ? -1 : 1;
     setUserActions({
-      retweeted: !retweeted,
-      retweetCount: retweetCount + count,
+      retweeted: true,
+      retweetCount: retweetCount + 1,
+      liked,
+      replied,
+      replyCount,
+      likeCount,
+    });
+  };
+
+  const deleteRetweet = () => {
+    tweetFunctions.deleteRetweet(id);
+    setUserActions({
+      retweeted: false,
+      retweetCount: retweetCount - 1,
       liked,
       replied,
       replyCount,
@@ -86,7 +97,7 @@ const TweetOptions = ({ id, className }) => {
     <TweetOption
       defaultColor={retweetColor}
       activeColor="green"
-      onClick={addRetweet}
+      onClick={retweeted ? deleteRetweet : addRetweet}
       count={retweetCount}
       svg={<RetweetSvg />}
     />

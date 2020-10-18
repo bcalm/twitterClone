@@ -10,13 +10,16 @@ const getTweets = () => fetch('/api/getTweets').then((x) => x.json());
 
 const getRetweets = () => fetch('/api/getRetweets').then((x) => x.json());
 
-const getLikedTweets = () => fetch('/api/getLikedTweets').then((x) => x.json());
+const getLikeTweets = () => fetch('/api/getLikeTweets').then((x) => x.json());
 
 const addTweet = (tweet) =>
   postReq('/api/addTweet', tweet).then((x) => x.json());
 
 const deleteTweet = (id) =>
   postReq('/api/deleteTweet', id).then((x) => x.json());
+
+const deleteRetweet = (id) =>
+  postReq('/api/deleteRetweet', id).then((x) => x.json());
 
 const addLike = (id) => postReq('/api/addLike', id).then((x) => x.json());
 
@@ -37,5 +40,6 @@ export default {
   addRetweet,
   getUserDetails,
   getRetweets,
-  getLikedTweets,
+  getLikeTweets,
+  deleteRetweet,
 };

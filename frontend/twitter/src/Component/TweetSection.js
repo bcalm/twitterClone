@@ -15,6 +15,7 @@ const TweetSection = (props) => {
   const addTweet = (content) => PostAPI.addTweet(content).then(setTweets);
   const deleteTweet = (id) => PostAPI.deleteTweet(id).then(setTweets);
   const addRetweet = (id) => PostAPI.addRetweet(id).then(setTweets);
+  const deleteRetweet = (id) => PostAPI.deleteRetweet(id).then(setTweets);
 
   return (
     <div className={props.className}>
@@ -22,7 +23,7 @@ const TweetSection = (props) => {
         <TweetBox />
       </TweetContext.Provider>
       <TweetContext.Provider
-        value={{ delete: deleteTweet, retweet: addRetweet }}
+        value={{ delete: deleteTweet, retweet: addRetweet, deleteRetweet }}
       >
         <Tweets tweets={tweets} />
       </TweetContext.Provider>
