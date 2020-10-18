@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 @CrossOrigin(origins = {"http://localhost:3000"})
@@ -28,9 +29,32 @@ public class TwitterController {
     private UserRepository userRepository;
 
     @GetMapping("/api/getTweets")
-
     public List<Tweets> getAllTweets() {
         return this.twitterRepository.findAll();
+    }
+
+    @GetMapping("/api/getRetweets")
+    public List<Tweets> getRetweets() {
+        List<UserTweetActions> allTweets = this.userActionRepository.findAll();
+        List<Tweets> retweets= new ArrayList<>();
+        for (UserTweetActions tweet : allTweets) {
+            if (tweet.isRetweeted()) {
+                retweets.add(this.twitterRepository.getOne(tweet.getTweetId()));
+            }
+        }
+        return retweets;
+    }
+
+    @GetMapping("/api/getLikeTweets")
+    public List<Tweets> getLikeTweets() {
+        List<UserTweetActions> allTweets = this.userActionRepository.findAll();
+        List<Tweets> retweets= new ArrayList<>();
+        for (UserTweetActions tweet : allTweets) {
+            if (tweet.isLiked()) {
+                retweets.add(this.twitterRepository.getOne(tweet.getTweetId()));
+            }
+        }
+        return retweets;
     }
 
     @PostMapping("/api/addTweet")

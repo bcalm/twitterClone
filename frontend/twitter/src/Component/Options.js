@@ -6,20 +6,45 @@ import TweetContext from './TweetContext';
 import PostAPI from '../api/PostApi';
 
 const Options = (props) => {
+  const indicator = { borderBottom: 'solid 2px #4a61c8' };
   const [tweets, setTweets] = useState([]);
+  const [{ tweetStyle, retweetStyle, likeStyle }, setStyle] = useState({});
+
   const deleteTweet = (id) => PostAPI.deleteTweet(id).then(setTweets);
   const addRetweet = (id) => PostAPI.addRetweet(id).then(setTweets);
+  const getTweets = () => PostApi.getTweets().then(setTweets);
+  const getRetweet = () => PostApi.getRetweets().then(setTweets);
+  const getLikeTweet = () => PostApi.getTweets().then(setTweets);
 
-  useEffect(() => {
-    PostApi.getTweets().then(setTweets);
-  }, []);
+  const showRetweet = () => {
+    setStyle({ retweetStyle: indicator });
+    getRetweet();
+  };
+
+  const showLikeTweet = () => {
+    setStyle({ likeStyle: indicator });
+    getLikeTweet();
+  };
+
+  const showTweet = () => {
+    setStyle({ tweetStyle: indicator });
+    getTweets();
+  };
+
+  useEffect(showTweet, []);
 
   return (
     <div>
       <div className={props.className}>
-        <div>Tweets</div>
-        <div>Retweets</div>
-        <div>Likes</div>
+        <div onClick={showTweet} style={tweetStyle}>
+          Tweets
+        </div>
+        <div onClick={showRetweet} style={retweetStyle}>
+          Retweets
+        </div>
+        <div onClick={showLikeTweet} style={likeStyle}>
+          Likes
+        </div>
       </div>
       <TweetContext.Provider
         value={{ delete: deleteTweet, retweet: addRetweet }}

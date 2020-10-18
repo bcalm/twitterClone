@@ -8,6 +8,10 @@ const postReq = (url, data) => {
 
 const getTweets = () => fetch('/api/getTweets').then((x) => x.json());
 
+const getRetweets = () => fetch('/api/getRetweets').then((x) => x.json());
+
+const getLikedTweets = () => fetch('/api/getLikedTweets').then((x) => x.json());
+
 const addTweet = (tweet) =>
   postReq('/api/addTweet', tweet).then((x) => x.json());
 
@@ -32,4 +36,6 @@ export default {
   getUserActionDetails,
   addRetweet,
   getUserDetails,
+  getRetweets,
+  getLikedTweets,
 };

@@ -25,6 +25,7 @@ const UserPanel = (props) => {
 const StyledUserPanel = styled(UserPanel)`
   margin-left: 2%;
   margin-right: 2%;
+  margin-bottom: 4%;
 `;
 
 export default StyledUserPanel;
