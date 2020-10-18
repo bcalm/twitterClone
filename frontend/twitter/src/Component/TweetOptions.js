@@ -54,6 +54,10 @@ const TweetOptions = ({ id, className }) => {
     setUserActions({
       retweeted: !retweeted,
       retweetCount: retweetCount + count,
+      liked,
+      replied,
+      replyCount,
+      likeCount,
     });
   };
 
