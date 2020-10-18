@@ -1,24 +1,23 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-
-const userDetails = {
-  userName: 'Vikram Singh',
-  userId: 'bcalm',
-  joinedAt: 'Thu Oct 15 2020',
-  following: 0,
-  followers: 0,
-};
+import PostAPI from '../api/PostApi';
 
 const UserPanel = (props) => {
+  const [userDetails, setUserDetails] = useState({});
+
+  useEffect(() => {
+    PostAPI.getUserDetails('bcalm').then(setUserDetails);
+  }, []);
+
   return (
     <div className={props.className}>
       <p>
         <span style={{ fontSize: 'x-large' }}>{userDetails.userName} </span>
         <span style={{ color: 'gray' }}>@{userDetails.userId}</span>
       </p>
-      <p>Joined: {userDetails.joinedAt}</p>
-      <span>Followers: {userDetails.followers} </span>
-      <span>Following: {userDetails.following}</span>
+      <p>Joined: {userDetails.joinedAT}</p>
+      <span>Followers: {userDetails.followersCount} </span>
+      <span>Following: {userDetails.followingCount}</span>
     </div>
   );
 };

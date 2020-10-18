@@ -1,6 +1,8 @@
 package com.twitter.controller;
 
 import com.twitter.model.Tweets;
+import com.twitter.model.Twitter;
+import com.twitter.repository.UserRepository;
 import com.twitter.model.UserTweetActions;
 import com.twitter.repository.TwitterRepository;
 import com.twitter.repository.UserActionRepository;
@@ -22,7 +24,11 @@ public class TwitterController {
     @Autowired
     private UserActionRepository userActionRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @GetMapping("/api/getTweets")
+
     public List<Tweets> getAllTweets() {
         return this.twitterRepository.findAll();
     }
@@ -75,6 +81,12 @@ public class TwitterController {
         userDetails.setRetweeted(!userDetails.isRetweeted());
         this.userActionRepository.save(userDetails);
         return this.addTweet(content);
+    }
+
+
+    @GetMapping("/api/getUserDetails/{userId}")
+    public Twitter getTwitter(@PathVariable String userId) {
+        return this.userRepository.findAll().get(0);
     }
 }
 

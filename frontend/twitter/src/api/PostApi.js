@@ -21,6 +21,9 @@ const addRetweet = (id) => postReq('/api/addRetweet', id).then((x) => x.json());
 const getUserActionDetails = (id) =>
   postReq('/api/getUserActionDetails', id).then((x) => x.json());
 
+const getUserDetails = (user) =>
+  fetch(`/api/getUserDetails/${user}`).then((x) => x.json());
+
 export default {
   getTweets,
   addTweet,
@@ -28,4 +31,5 @@ export default {
   addLike,
   getUserActionDetails,
   addRetweet,
+  getUserDetails,
 };
