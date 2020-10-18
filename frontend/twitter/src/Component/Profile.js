@@ -2,12 +2,14 @@ import React from 'react';
 import styled from 'styled-components';
 import UserProfile from './UserProfile';
 import UserPanel from './UserPanel';
+import Options from './Options';
 
 const Profile = (props) => {
   return (
     <div className={props.className}>
       <UserProfile />
       <UserPanel />
+      <Options />
     </div>
   );
 };
