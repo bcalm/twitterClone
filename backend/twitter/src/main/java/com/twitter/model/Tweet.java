@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "employees")
-public class Tweets {
+public class Tweet {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,11 +23,11 @@ public class Tweets {
     @Column(name = "timeStamp")
     private String timeStamp;
 
-    public Tweets() {
+    public Tweet() {
         super();
     }
 
-    public Tweets(String content, String userName, String userId) {
+    public Tweet(String content, String userName, String userId) {
         this.content = content;
         this.userName = userName;
         this.userId = userId;
