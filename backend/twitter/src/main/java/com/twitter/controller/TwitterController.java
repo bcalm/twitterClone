@@ -2,25 +2,23 @@ package com.twitter.controller;
 
 import com.twitter.model.Tweet;
 import com.twitter.model.Twitter;
-import com.twitter.repository.UserRepository;
-import com.twitter.model.UserTweetActions;
-import com.twitter.repository.TwitterRepository;
-import com.twitter.repository.UserActionRepository;
+import com.twitter.model.TweetActions;
 import com.twitter.service.TwitterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 
 @CrossOrigin(origins = {"http://localhost:3000"})
 @RestController
 public class TwitterController {
 
+    private final TwitterService twitterService;
+
     @Autowired
-    private TwitterService twitterService;
+    public TwitterController(TwitterService twitterService) {
+        this.twitterService = twitterService;
+    }
 
     @GetMapping("/api/getTweets")
     public List<Tweet> getAllTweets() {
@@ -48,12 +46,12 @@ public class TwitterController {
     }
 
     @PostMapping("/api/addLike")
-    public UserTweetActions addLike(@RequestBody Long tweetId) {
+    public TweetActions toggleLike(@RequestBody Long tweetId) {
         return this.twitterService.toggleLike(tweetId);
     }
 
     @PostMapping("/api/getUserActionDetails")
-    public UserTweetActions getUserActionDetails(@RequestBody Long tweetId) {
+    public TweetActions getUserActionDetails(@RequestBody Long tweetId) {
         return this.twitterService.getUserActionDetails(tweetId);
     }
 
@@ -67,10 +65,9 @@ public class TwitterController {
         return this.twitterService.deleteRetweet(tweetId);
     }
 
-
     @GetMapping("/api/getUserDetails/{userId}")
-    public Twitter getTwitter(@PathVariable String userId) {
-        return this.twitterService.getTwitter(userId);
+    public Twitter getTwitterDetails(@PathVariable String userId) {
+        return this.twitterService.getTwitterDetails(userId);
     }
 }
 

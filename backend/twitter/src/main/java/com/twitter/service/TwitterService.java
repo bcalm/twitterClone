@@ -2,42 +2,47 @@ package com.twitter.service;
 
 import com.twitter.model.Tweet;
 import com.twitter.model.Twitter;
-import com.twitter.model.UserTweetActions;
+import com.twitter.model.TweetActions;
+import com.twitter.repository.TweetRepository;
+import com.twitter.repository.TweetActionRepository;
 import com.twitter.repository.TwitterRepository;
-import com.twitter.repository.UserActionRepository;
-import com.twitter.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Array;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Stream;
 
 @Service
-public class TwitterService implements  ITwitterService {
+public class TwitterService implements ITwitterService {
+
+    private final TweetRepository tweetRepository;
+    private final TweetActionRepository tweetActionRepository;
+    private final TwitterRepository twitterRepository;
 
     @Autowired
-    private TwitterRepository twitterRepository;
-
-    @Autowired
-    private UserActionRepository userActionRepository;
-
-    @Autowired
-    private UserRepository userRepository;
+    public TwitterService(TweetRepository tweetRepository, TweetActionRepository tweetActionRepository, TwitterRepository twitterRepository) {
+        this.tweetRepository = tweetRepository;
+        this.tweetActionRepository = tweetActionRepository;
+        this.twitterRepository = twitterRepository;
+    }
 
     @Override
     public List<Tweet> getTweets() {
-        return this.twitterRepository.findAll();
+        return this.tweetRepository.findAll();
     }
 
     @Override
     public List<Tweet> getRetweets() {
-        List<UserTweetActions> allTweets = this.userActionRepository.findAll();
         List<Tweet> retweets = new ArrayList<>();
-        for (UserTweetActions tweet : allTweets) {
+        List<TweetActions> allTweets = this.tweetActionRepository.findAll();
+        for (TweetActions tweet : allTweets) {
             if (tweet.isRetweeted()) {
-                retweets.add(this.twitterRepository.getOne(tweet.getTweetId()));
+                retweets.add(this.tweetRepository.getOne(tweet.getTweetId()));
             }
         }
         return retweets;
@@ -45,11 +50,11 @@ public class TwitterService implements  ITwitterService {
 
     @Override
     public List<Tweet> getLikeTweets() {
-        List<UserTweetActions> allTweets = this.userActionRepository.findAll();
+        List<TweetActions> allTweets = this.tweetActionRepository.findAll();
         List<Tweet> likedTweets = new ArrayList<>();
-        for (UserTweetActions tweet : allTweets) {
+        for (TweetActions tweet : allTweets) {
             if (tweet.isLiked()) {
-                likedTweets.add(this.twitterRepository.getOne(tweet.getTweetId()));
+                likedTweets.add(this.tweetRepository.getOne(tweet.getTweetId()));
             }
         }
         return likedTweets;
@@ -59,61 +64,57 @@ public class TwitterService implements  ITwitterService {
     public List<Tweet> addTweet(String content) {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
-        Tweet tweet = new Tweet();
-        tweet.setContent(content);
-        tweet.setUserId("bcalm");
-        tweet.setUserName("Vikram Singh");
-        tweet.setTimeStamp(dtf.format(now));
-        this.twitterRepository.save(tweet);
-        this.userActionRepository.save(new UserTweetActions(false, false, false, 0, 0, 0));
-        return this.twitterRepository.findAll();
+        Twitter user = this.twitterRepository.findAll().get(0);
+        this.tweetRepository.save(new Tweet(content, user.getUserName(), user.getUserId(), dtf.format(now)));
+        this.tweetActionRepository.save(new TweetActions(false, false, false, 0, 0, 0));
+        return this.tweetRepository.findAll();
     }
 
     @Override
     public List<Tweet> deleteTweet(Long id) {
-        this.twitterRepository.deleteById(id);
-        this.userActionRepository.deleteById(id);
-        return this.twitterRepository.findAll();
+        this.tweetRepository.deleteById(id);
+        this.tweetActionRepository.deleteById(id);
+        return this.tweetRepository.findAll();
     }
 
     @Override
-    public UserTweetActions toggleLike(Long id) {
-        UserTweetActions userDetails = this.userActionRepository.getOne(id);
-        int value = userDetails.isLiked() ? -1 : 1;
-        int addValue = (userDetails.getLikeCount() + value);
-        userDetails.setLikeCount(addValue);
-        userDetails.setLiked(!userDetails.isLiked());
-        this.userActionRepository.save(userDetails);
-        return userDetails;
+    public TweetActions toggleLike(Long id) {
+        TweetActions tweetActionsDetails = this.tweetActionRepository.getOne(id);
+        int value = tweetActionsDetails.isLiked() ? -1 : 1;
+        int addValue = (tweetActionsDetails.getLikeCount() + value);
+        tweetActionsDetails.setLikeCount(addValue);
+        tweetActionsDetails.setLiked(!tweetActionsDetails.isLiked());
+        this.tweetActionRepository.save(tweetActionsDetails);
+        return tweetActionsDetails;
     }
 
     @Override
-    public UserTweetActions getUserActionDetails(Long id) {
-        return this.userActionRepository.getOne(id);
+    public TweetActions getUserActionDetails(Long id) {
+        return this.tweetActionRepository.getOne(id);
     }
 
     @Override
     public List<Tweet> addRetweet(Long id) {
-        Tweet tweet = this.twitterRepository.getOne(id);
+        Tweet tweet = this.tweetRepository.getOne(id);
         String content = tweet.getContent();
-        UserTweetActions userDetails = this.userActionRepository.getOne(id);
-        userDetails.setRetweetCount(userDetails.getRetweetCount() + 1);
-        userDetails.setRetweeted(true);
-        this.userActionRepository.save(userDetails);
+        TweetActions tweetActionDetails = this.tweetActionRepository.getOne(id);
+        tweetActionDetails.setRetweetCount(tweetActionDetails.getRetweetCount() + 1);
+        tweetActionDetails.setRetweeted(true);
+        this.tweetActionRepository.save(tweetActionDetails);
         return this.addTweet(content);
     }
 
     @Override
     public List<Tweet> deleteRetweet(Long id) {
-        UserTweetActions userDetails = this.userActionRepository.getOne(id);
-        userDetails.setRetweetCount(userDetails.getRetweetCount() + 1);
+        TweetActions userDetails = this.tweetActionRepository.getOne(id);
+        userDetails.setRetweetCount(userDetails.getRetweetCount() - 1);
         userDetails.setRetweeted(false);
-        this.userActionRepository.save(userDetails);
-        return this.twitterRepository.findAll();
+        this.tweetActionRepository.save(userDetails);
+        return this.tweetRepository.findAll();
     }
 
     @Override
-    public Twitter getTwitter(String userId) {
-        return this.userRepository.findAll().get(0);
+    public Twitter getTwitterDetails(String userId) {
+        return this.twitterRepository.findAll().get(0);
     }
 }

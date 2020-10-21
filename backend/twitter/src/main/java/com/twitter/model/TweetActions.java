@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "user_tweet_actions")
-public class UserTweetActions {
+public class TweetActions {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,7 +29,7 @@ public class UserTweetActions {
     private int retweetCount;
 
 
-    public UserTweetActions(boolean liked, boolean retweeted, boolean replied, int likeCount, int replyCount, int retweetCount) {
+    public TweetActions(boolean liked, boolean retweeted, boolean replied, int likeCount, int replyCount, int retweetCount) {
         this.liked = liked;
         this.retweeted = retweeted;
         this.replied = replied;
@@ -39,7 +39,7 @@ public class UserTweetActions {
     }
 
 
-    public UserTweetActions() {
+    public TweetActions() {
         super();
     }
 

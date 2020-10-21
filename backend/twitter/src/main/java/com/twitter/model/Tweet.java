@@ -27,10 +27,11 @@ public class Tweet {
         super();
     }
 
-    public Tweet(String content, String userName, String userId) {
+    public Tweet(String content, String userName, String userId, String timeStamp) {
         this.content = content;
         this.userName = userName;
         this.userId = userId;
+        this.timeStamp = timeStamp;
     }
 
     public long getId() {
