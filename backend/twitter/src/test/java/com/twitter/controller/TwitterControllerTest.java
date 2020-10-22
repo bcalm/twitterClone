@@ -80,7 +80,7 @@ public class TwitterControllerTest {
     }
 
     @Test
-    public void getRetweets() throws Exception {
+    public void shouldGetAllRetweets() throws Exception {
         Tweet tweet = new Tweet("testing", "Vikram Singh", "bcalm", "20-10-2020");
         List<Tweet> tweets = new ArrayList<>();
         tweets.add(tweet);
@@ -101,7 +101,7 @@ public class TwitterControllerTest {
     }
 
     @Test
-    public void getLikeTweets() throws Exception {
+    public void shouldGetAllTweetsLikedByUser() throws Exception {
         Tweet tweet = new Tweet("testing", "Vikram Singh", "bcalm", "20-10-2020");
         List<Tweet> tweets = new ArrayList<>();
         tweets.add(tweet);
@@ -122,7 +122,7 @@ public class TwitterControllerTest {
     }
 
     @Test
-    public void addTweet() throws Exception {
+    public void shouldAddTheTweet() throws Exception {
         Tweet tweet = new Tweet("testing", "Vikram Singh", "bcalm", "20-10-2020");
         List<Tweet> tweets = new ArrayList<>();
         tweets.add(tweet);
@@ -146,7 +146,7 @@ public class TwitterControllerTest {
     }
 
     @Test
-    public void deleteTweet() throws Exception {
+    public void shouldDeleteTheTweet() throws Exception {
         Tweet tweet = new Tweet("testing", "Vikram Singh", "bcalm", "20-10-2020");
         List<Tweet> tweets = new ArrayList<>();
         tweets.add(tweet);
@@ -169,7 +169,7 @@ public class TwitterControllerTest {
     }
 
     @Test
-    public void toggleLike() throws Exception {
+    public void shouldLikeTheTweet() throws Exception {
         TweetActions tweetActions = new TweetActions(true, false, false, 1, 0, 0);
         String inputInJson = new ObjectMapper().writeValueAsString(tweetActions);
 
@@ -189,7 +189,7 @@ public class TwitterControllerTest {
     }
 
     @Test
-    public void getUserActionDetails() throws Exception {
+    public void shouldGiveAllActionsDoneByUSer() throws Exception {
         TweetActions tweetActions = new TweetActions(true, false, false, 1, 0, 0);
         String inputInJson = new ObjectMapper().writeValueAsString(tweetActions);
 
@@ -209,7 +209,7 @@ public class TwitterControllerTest {
     }
 
     @Test
-    public void addRetweet() throws Exception {
+    public void shouldAddTheRetweet() throws Exception {
         Tweet tweet = new Tweet("testing", "Vikram Singh", "bcalm", "20-10-2020");
         List<Tweet> tweets = new ArrayList<>();
         tweets.add(tweet);
